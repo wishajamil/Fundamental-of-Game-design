@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>Simple Animation</title>
+
+<!--
+Simple animation program.
+
+-Wisha Jamil, January 2021
+-->
+
+<script type="application/javascript">
+// <![CDATA[
+var INTERVAL = 50;
+var DEBUG = false; //true;
+
+var canvas;             // The canvas shown on the page.
+var ctx;                // The context, used to access the canvas.
+
+var myInterval;         // Set up a timer to execute every 50 ms.
+
+var SpriteRow = 0;      // Row of the graphic to show
+var SpriteCol = 0;      // Col of the graphic to show
+
+//First image Spirit
+var SpriteX = 100;      // Position of sprite on the canvas
+var SpriteY = 100;
+var SpriteWidth = 32;   // Width, Height of each subimage
+var SpriteHeight = 32;
+
+var SpriteImage = new Image();   
+SpriteImage.src   = "Pounce.png";
+
+// second image GSU G
+var SpriteX1 = 200;      // Position of sprite on the canvas
+var SpriteY1 = 200;
+var SpriteWidth1 = 32;   // Width, Height of each subimage
+var SpriteHeight1 = 32;
+
+var SpriteImage1 = new Image();   
+SpriteImage1.src   = "gsuG.png";
+
+// tiles 
+var TileX = 0;      // Position of sprite on the canvas
+var TileY = -32;
+var TileWidth = 32;   // Width, Height of each subimage
+var TileHeight = 32;
+var TileRow = 0;
+var TileCol = 0;
+
+var TileImage = new Image();   
+TileImage.src   = "features.png";
+
+//GOAL 
+var GoalX = 610;      // Position of sprite on the canvas
+var GoalY = 0;
+var GoalWidth = 32;   // Width, Height of each subimage
+var GoalHeight = 480;
+
+fill(255,0,0);
+rect(GoalX, GoalY, GoalWidth, GoalHeight);
+
+function drawSprite() {
+    // MOVING OBJECT
+    ctx.drawImage(SpriteImage, SpriteCol * SpriteWidth, SpriteRow * SpriteHeight,
+        SpriteWidth, SpriteHeight, SpriteX, SpriteY, SpriteWidth, SpriteHeight);
+    ctx.drawImage(SpriteImage1, SpriteCol * SpriteWidth1, SpriteRow * SpriteHeight1,
+        SpriteWidth1, SpriteHeight1, SpriteX1, SpriteY1, SpriteWidth1, SpriteHeight1);
+}
+
+function eraseSprite() {
+  ctx.clearRect(SpriteX, SpriteY, SpriteWidth, SpriteHeight);
+  ctx.clearRect(SpriteX1, SpriteY1, SpriteWidth1, SpriteHeight1);
+}
+
+function Tick() {
+  eraseSprite();
+  drawSprite();
+}
+
+function loadComplete() {
+  console.log("Load is complete.");
+  canvas = document.getElementById("theCanvas");
+  ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(GoalX, GoalY, GoalWidth, GoalHeight);
+  myInterval = self.setInterval(function(){Tick()}, INTERVAL);
+}
+
+function collision(key) {
+    if(SpriteX < SpriteX1 + SpriteWidth1 &&
+        SpriteX1 < SpriteX + SpriteWidth &&
+        SpriteY < SpriteY1 + SpriteHeight1 && 
+        SpriteY1 < SpriteY + SpriteHeight)  {
+            if(key == 28) {
+                SpriteX -= 10;
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+}
+
+function collision1(key1) {
+    if (SpriteX < SpriteX1 + SpriteWidth1 &&
+        SpriteX1 < SpriteX + SpriteWidth &&
+        SpriteY < SpriteY1 + SpriteHeight1 && 
+        SpriteY1 < SpriteY + SpriteHeight) {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+}
+
+function SpriteCollTile(key) {
+    if(SpriteX < TileX + TileWidth &&
+    TileX < SpriteX + SpriteWidth &&
+        SpriteY < TileY + TileHeight && 
+        TileY < SpriteY + SpriteHeight)  {
+            if(key == 28) {
+                SpriteX -= 10;
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+}
+
+function GSUCollTile(key1) {
+    if(SpriteX1 < TileX + TilekWidth &&
+        TileX < SpriteX1 + SpriteWidth1 &&
+        SpriteY1 < TileY + TileHeight && 
+        TileY < SpriteY1 + SpriteHeight1)  {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }    
+}
+
+function SpriteCollGoal(key) {
+    if(SpriteX < GoalX + GoalWidth &&
+        GoalX < SpriteX + SpriteWidth &&
+        SpriteY < GoalY + GoalHeight && 
+        GoalY < SpriteY + SpriteHeight) {
+            if(key == 28) {
+                SpriteX -= 10;
+                canvas.style.background = "#00FF00"; 
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+}
+
+function GSUCollGoal(key1) {
+    if(SpriteX1 < GoalX + GoalWidth &&
+        GoalX < SpriteX1 + SpriteWidth1 &&
+        SpriteY1 < GoalY + GoalHeight && 
+        GoalY < SpriteY1 + SpriteHeight1) {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+                canvas.style.background = "#006400"; 
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+}
+
+function whenKeyPressed(key) {
+    switch (key) {
+        case 28:  // Right arrow was pressed
+            eraseSprite();
+            if(SpriteX == 600)
+                SpriteX -= 10;
+            else if(SpriteX != 0)
+                SpriteX += 10;
+            else if(SpriteX == 0)
+                SpriteX += 10;
+            drawSprite();
+            break;
+        case 29:  // Left arrow, ASCII 2
+            eraseSprite();
+            if(SpriteX == 0)
+                SpriteX += 10;
+            else if(SpriteX != 0)
+                SpriteX -= 10;
+            drawSprite();
+            break;
+        case 30:  // Up arrow was pressed
+            eraseSprite();
+            if (SpriteY == 0)
+                SpriteY += 10;
+            else if(SpriteY != 0)
+                SpriteY -= 10;
+            drawSprite();
+            break;
+        case 31:  // Down arrow was pressed
+            eraseSprite();
+            if(SpriteY >= 450)
+                SpriteY -= 10;
+            else if (SpriteY != 0)
+                SpriteY += 10;
+            else if(SpriteY == 0)
+                SpriteY += 10;
+            drawSprite();
+            break;
+    }
+}
+
+function whenLetterPressed(key1){
+    switch(key1){
+        case 32:  // a
+            eraseSprite();
+            if(SpriteX1 == 600)
+                SpriteX1 -= 10;
+            else if(SpriteX1 != 0)
+                SpriteX1 -= 10;
+            else if(SpriteX1 == 0)
+                SpriteX1 += 10;
+            drawSprite();
+            break;
+        case 33:  // w
+            eraseSprite();
+            if (SpriteY1 == 0)
+                SpriteY1 += 10;
+            else if(SpriteY1 != 0)
+                SpriteY1 -= 10;
+            drawSprite();
+            break;
+        case 34:  // d
+            eraseSprite();
+            if (SpriteX1 == 600) 
+                SpriteX1 -= 10;
+            else if(SpriteX1 != 0)
+                SpriteX1 += 10;
+            else if(SpriteX1 == 0)
+                SpriteX1 += 10;
+            drawSprite();
+            break;
+        case 35:  // s
+            eraseSprite();
+            if(SpriteY1 >= 450)
+                SpriteY1 -= 10;
+            else if (SpriteY1 != 0)
+                SpriteY1 += 10;
+            else if(SpriteY1 == 0)
+                SpriteY1 += 10;
+            drawSprite();
+            break;
+    }
+}
+
+function loadFinished(evt) {
+    var response = this.response;
+    for(var i = 0; i < response.length; i++){
+        if(response.charAt(i) == '0'){
+            TileX += 32;
+        }
+        else if(response.charAt(i) == "1"){
+             ctx.drawImage(TileImage, 1 * TileWidth, TileRow * TileHeight, TileWidth, TileHeight, TileX, TileY, TileWidth, TileHeight);
+            TileX += 32;
+        }
+        else if(response.charAt(i) == '2'){
+            ctx.drawImage(TileImage, 2 * TileWidth, TileRow * TileHeight, TileWidth, TileHeight, TileX, TileY, TileWidth, TileHeight);
+            TileX += 32;
+        }
+        else if(response.charAt(i) == '3'){
+            ctx.drawImage(TileImage, 3 * TileWidth, TileRow * TileHeight, TileWidth, TileHeight, TileX, TileY, TileWidth, TileHeight);
+            TileX += 32;
+        }
+        else if(response.charAt(i) == '4'){
+            ctx.drawImage(TileImage, 4 * TileWidth, TileRow * TileHeight, TileWidth, TileHeight, TileX, TileY, TileWidth, TileHeight);
+            TileX += 32;
+        }
+        else if(response.charAt(i) == '5'){
+            ctx.drawImage(TileImage, 5 * TileWidth, TileRow * TileHeight, TileWidth, TileHeight, TileX, TileY, TileWidth, TileHeight);
+            //drawTile(tile, x, y);
+            TileX += 32;
+        }
+        if(i % 62 == 0){
+            TileX = 0;
+            TileY += 32;
+        }
+    }
+}
+
+function requestData() {
+    var xmlhttp;
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.addEventListener("load", loadFinished, false);
+    xmlhttp.open("GET", "gamedata.txt", true);
+    xmlhttp.send();  // send the request
+}
+
+///]]>
+</script>
+
+</head>
+<body onload="loadComplete()" bgcolor="#0f0000" text="#ffffff">
+
+<center>
+    <canvas id="theCanvas" tabindex="1" width="640" height="480"></canvas>
+    <h2>Press up/down/right left for Pounce and w/a/s/d for gsuG to move</h2>
+</center>
+
+<script type="application/javascript">
+
+document.addEventListener('DOMContentLoaded', function() {
+    requestData();
+}, false);
+
+// Set up a function to handle key-presses.
+// This should work across most browsers.
+  document['onkeydown'] = function(event) {
+    event = event || window.event;
+    var key = event.which || event.cursor;
+    // Check for a special key value, and map it to ASCII.
+    switch (key) {
+      case 37:  // Left arrow, ASCII 29
+        key = 29;
+        break;
+      case 38:  // Up arrow, ASCII 30
+        key = 30;
+        break;
+      case 39:  // Right arrow, ASCII 28
+        key = 28;
+        break;
+      case 40:  // Down arrow, ASCII 31
+        key = 31;
+        break;
+    }
+     whenKeyPressed(key);
+     collision(key);
+     SpriteCollTile(key);
+     SpriteCollGoal(key);
+  };
+  document.addEventListener("keydown",function(event){
+  event = event || window.event;
+  var key1= event.which || event.cursor;
+  switch(key1){
+    case 65:  // a
+      key1 = 32;
+      break;
+    case 87:  // w
+      key1 = 33;
+      break;
+    case 68:  // d
+      key1 = 34;
+      break;
+    case 83:  // s
+      key1 = 35;
+      break;
+  }
+  whenLetterPressed(key1);
+  collision1(key1);
+  GSUCollTile(key1);
+  GSUCollGoal(key1);
+  
+});
+</script>
+</body></html>
+

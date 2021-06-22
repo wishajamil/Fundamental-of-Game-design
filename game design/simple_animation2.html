@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>Simple Animation</title>
+
+<!--
+Simple animation program.
+
+-Wisha Jamil, January 2021
+-->
+
+<script type="application/javascript">
+// <![CDATA[
+var INTERVAL = 50;
+var DEBUG = false; //true;
+
+var canvas;             // The canvas shown on the page.
+var ctx;                // The context, used to access the canvas.
+
+var myInterval;         // Set up a timer to execute every 50 ms.
+
+var SpriteRow = 0;      // Row of the graphic to show
+var SpriteCol = 0;      // Col of the graphic to show
+
+//First image Spirit
+var SpriteX = 100;      // Position of sprite on the canvas
+var SpriteY = 100;
+var SpriteWidth = 32;   // Width, Height of each subimage
+var SpriteHeight = 32;
+
+var SpriteImage = new Image();   
+SpriteImage.src   = "Pounce.png";
+
+// second image GSU G
+var SpriteX1 = 200;      // Position of sprite on the canvas
+var SpriteY1 = 200;
+var SpriteWidth1 = 32;   // Width, Height of each subimage
+var SpriteHeight1 = 32;
+
+var SpriteImage1 = new Image();   
+SpriteImage1.src   = "gsuG.png";
+
+// 1st Wall
+var BlockX = 50;      // Position of sprite on the canvas
+var BlockY = 50;
+var BlockWidth = 32;   // Width, Height of each subimage
+var BlockHeight = 32;
+
+var BlockImage = new Image();   
+BlockImage.src   = "block.PNG";
+
+// 2nd wall
+var BlockX1 = 550;      // Position of sprite on the canvas
+var BlockY1 = 200;
+var BlockWidth1 = 32;   // Width, Height of each subimage
+var BlockHeight1 = 32;
+
+var BlockImage1 = new Image();   
+BlockImage1.src   = "block1.PNG";
+
+// 3rd wall
+var BlueX = 300;      // Position of sprite on the canvas
+var BlueY = 60;
+var BlueWidth = 32;   // Width, Height of each subimage
+var BlueHeight = 32;
+
+var BlueImage = new Image();   
+BlueImage.src   = "blue.PNG";
+
+// 4th wall
+var BlueX1 = 60;      // Position of sprite on the canvas
+var BlueY1 = 400;
+var BlueWidth1 = 32;   // Width, Height of each subimage
+var BlueHeight1 = 32;
+
+var BlueImage1 = new Image();   
+BlueImage1.src   = "blue1.PNG";
+
+// 5th wall
+var BrickX = 100;      // Position of sprite on the canvas
+var BrickY = 150;
+var BrickWidth = 32;   // Width, Height of each subimage
+var BrickHeight = 32;
+
+var BrickImage = new Image();   
+BrickImage.src   = "brick.PNG";
+
+// 6th wall
+var BrickX1 = 250;      // Position of sprite on the canvas
+var BrickY1 = 450;
+var BrickWidth1 = 32;   // Width, Height of each subimage
+var BrickHeight1 = 32;
+
+var BrickImage1 = new Image();   
+BrickImage1.src   = "brick1.PNG";
+
+// 7th wall
+var CircleX = 400;      // Position of sprite on the canvas
+var CircleY = 400;
+var CircleWidth = 32;   // Width, Height of each subimage
+var CircleHeight = 32;
+
+var CircleImage = new Image();   
+CircleImage.src   = "circle.PNG";
+
+// 8th wall
+var RockX = 510;      // Position of sprite on the canvas
+var RockY = 320;
+var RockWidth = 32;   // Width, Height of each subimage
+var RockHeight = 32;
+
+var RockImage = new Image();   
+RockImage.src   = "rock.PNG";
+
+// 9th wall
+var TreeX = 450;      // Position of sprite on the canvas
+var TreeY = 100;
+var TreeWidth = 32;   // Width, Height of each subimage
+var TreeHeight = 32;
+
+var TreeImage = new Image();   
+TreeImage.src   = "tree.PNG";
+
+// 10th wall
+var TreeX1 = 350;      // Position of sprite on the canvas
+var TreeY1 = 250;
+var TreeWidth1 = 32;   // Width, Height of each subimage
+var TreeHeight1 = 32;
+
+var TreeImage1 = new Image();   
+TreeImage1.src   = "tree1.PNG";
+
+//GOAL 
+var GoalX = 610;      // Position of sprite on the canvas
+var GoalY = 0;
+var GoalWidth = 32;   // Width, Height of each subimage
+var GoalHeight = 480;
+
+fill(255,0,0);
+rect(GoalX, GoalY, GoalWidth, GoalHeight);
+
+function drawSprite() {
+    // MOVING OBJECT
+    ctx.drawImage(SpriteImage, SpriteCol * SpriteWidth, SpriteRow * SpriteHeight,
+        SpriteWidth, SpriteHeight, SpriteX, SpriteY, SpriteWidth, SpriteHeight);
+    ctx.drawImage(SpriteImage1, SpriteCol * SpriteWidth1, SpriteRow * SpriteHeight1,
+        SpriteWidth1, SpriteHeight1, SpriteX1, SpriteY1, SpriteWidth1, SpriteHeight1);
+
+    //WALL OCJECT
+    ctx.drawImage(BlockImage, SpriteCol * BlockWidth, SpriteRow * BlockHeight,
+        BlockWidth, BlockHeight, BlockX, BlockY, BlockWidth, BlockHeight);
+    ctx.drawImage(BlockImage1, SpriteCol * BlockWidth1, SpriteRow * BlockHeight1,
+        BlockWidth1, BlockHeight1, BlockX1, BlockY1, BlockWidth1, BlockHeight1);
+    ctx.drawImage(BlueImage, SpriteCol * BlueWidth, SpriteRow * BlueHeight,
+        BlueWidth, BlueHeight, BlueX, BlueY, BlueWidth, BlueHeight);
+    ctx.drawImage(BlueImage1, SpriteCol * BlueWidth1, SpriteRow * BlueHeight1,
+        BlueWidth1, BlueHeight1, BlueX1, BlueY1, BlueWidth1, BlueHeight1);
+    ctx.drawImage(BrickImage, SpriteCol * BrickWidth, SpriteRow * BrickHeight,
+        BrickWidth, BrickHeight, BrickX, BrickY, BrickWidth, BrickHeight);
+    ctx.drawImage(BrickImage1, SpriteCol * BrickWidth1, SpriteRow * BrickHeight1,
+        BrickWidth1, BrickHeight1, BrickX1, BrickY1, BrickWidth1, BrickHeight1);
+    ctx.drawImage(CircleImage, SpriteCol * CircleWidth, SpriteRow * CircleHeight,
+        CircleWidth, CircleHeight, CircleX, CircleY, CircleWidth, CircleHeight);
+    ctx.drawImage(RockImage, SpriteCol * RockWidth, SpriteRow * RockHeight,
+        RockWidth, RockHeight, RockX, RockY, RockWidth, RockHeight);
+    ctx.drawImage(TreeImage, SpriteCol * TreeWidth, SpriteRow * TreeHeight,
+        TreeWidth, TreeHeight, TreeX, TreeY, TreeWidth, TreeHeight);
+    ctx.drawImage(TreeImage1, SpriteCol * TreeWidth1, SpriteRow * TreeHeight1,
+        TreeWidth1, TreeHeight1, TreeX1, TreeY1, TreeWidth1, TreeHeight1);
+}
+
+function eraseSprite() {
+  ctx.clearRect(SpriteX, SpriteY, SpriteWidth, SpriteHeight);
+  ctx.clearRect(SpriteX1, SpriteY1, SpriteWidth1, SpriteHeight1);
+}
+
+function Tick() {
+  eraseSprite();
+  drawSprite();
+}
+
+function loadComplete() {
+  console.log("Load is complete.");
+  canvas = document.getElementById("theCanvas");
+  ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(GoalX, GoalY, GoalWidth, GoalHeight);
+  myInterval = self.setInterval(function(){Tick()}, INTERVAL);
+}
+
+function collision(key) {
+    if(SpriteX < SpriteX1 + SpriteWidth1 &&
+        SpriteX1 < SpriteX + SpriteWidth &&
+        SpriteY < SpriteY1 + SpriteHeight1 && 
+        SpriteY1 < SpriteY + SpriteHeight)  {
+            if(key == 28) {
+                SpriteX -= 10;
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+}
+
+function collision1(key1) {
+    if (SpriteX < SpriteX1 + SpriteWidth1 &&
+        SpriteX1 < SpriteX + SpriteWidth &&
+        SpriteY < SpriteY1 + SpriteHeight1 && 
+        SpriteY1 < SpriteY + SpriteHeight) {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+}
+
+function SpriteCollWall(key) {
+    if(SpriteX < BlockX + BlockWidth &&
+        BlockX < SpriteX + SpriteWidth &&
+        SpriteY < BlockY + BlockHeight && 
+        BlockY < SpriteY + SpriteHeight)  {
+            if(key == 28) {
+                SpriteX -= 10;
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+    if(SpriteX < BlockX1 + BlockWidth1 &&
+        BlockX1 < SpriteX + SpriteWidth &&
+        SpriteY < BlockY1 + BlockHeight1 && 
+        BlockY1 < SpriteY + SpriteHeight)  {
+            if(key == 28) {
+                SpriteX -= 10;
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+    if(SpriteX < BlueX + BlueWidth &&
+        BlueX < SpriteX + SpriteWidth &&
+        SpriteY < BlueY + BlueHeight && 
+        BlueY < SpriteY + SpriteHeight)  {
+            if(key == 28) {
+                SpriteX -= 10;
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+    if(SpriteX < BlueX1 + BlueWidth1 &&
+        BlueX1 < SpriteX + SpriteWidth &&
+        SpriteY < BlueY1 + BlueHeight1 && 
+        BlueY1 < SpriteY + SpriteHeight)  {
+            if(key == 28) {
+                SpriteX -= 10;
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+    if(SpriteX < BrickX + BrickWidth &&
+        BrickX < SpriteX + SpriteWidth &&
+        SpriteY < BrickY + BrickHeight && 
+        BrickY < SpriteY + SpriteHeight)  {
+            if(key == 28) {
+                SpriteX -= 10;
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+    if(SpriteX < BrickX1 + BrickWidth1 &&
+        BrickX1 < SpriteX + SpriteWidth &&
+        SpriteY < BrickY1 + BrickHeight1 && 
+        BrickY1 < SpriteY + SpriteHeight)  {
+            if(key == 28) {
+                SpriteX -= 10;
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+    if(SpriteX < CircleX + CircleWidth &&
+        CircleX < SpriteX + SpriteWidth &&
+        SpriteY < CircleY + CircleHeight && 
+        CircleY < SpriteY + SpriteHeight)  {
+            if(key == 28) {
+                SpriteX -= 10;
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+    if(SpriteX < RockX + RockWidth &&
+        RockX < SpriteX + SpriteWidth &&
+        SpriteY < RockY + RockHeight && 
+        RockY < SpriteY + SpriteHeight)  {
+            if(key == 28) {
+                SpriteX -= 10;
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+    if(SpriteX < TreeX + TreeWidth &&
+        TreeX < SpriteX + SpriteWidth &&
+        SpriteY < TreeY + TreeHeight && 
+        TreeY < SpriteY + SpriteHeight)  {
+            if(key == 28) {
+                SpriteX -= 10;
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+    if(SpriteX < TreeX1 + TreeWidth1 &&
+        TreeX1 < SpriteX + SpriteWidth &&
+        SpriteY < TreeY1 + TreeHeight1 && 
+        TreeY1 < SpriteY + SpriteHeight)  {
+            if(key == 28) {
+                SpriteX -= 10;
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+}
+
+function GSUCollWall(key1) {
+    if(SpriteX1 < BlockX + BlockWidth &&
+        BlockX < SpriteX1 + SpriteWidth1 &&
+        SpriteY1 < BlockY + BlockHeight && 
+        BlockY < SpriteY1 + SpriteHeight1)  {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+    if(SpriteX1 < BlockX1 + BlockWidth1 &&
+        BlockX1 < SpriteX1 + SpriteWidth1 &&
+        SpriteY1 < BlockY1 + BlockHeight1 && 
+        BlockY1 < SpriteY1 + SpriteHeight1)  {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+    if(SpriteX1 < BlueX + BlueWidth &&
+        BlueX < SpriteX1 + SpriteWidth1 &&
+        SpriteY1 < BlueY + BlueHeight && 
+        BlueY < SpriteY1 + SpriteHeight1)  {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+    if(SpriteX1 < BlueX1 + BlueWidth1 &&
+        BlueX1 < SpriteX1 + SpriteWidth1 &&
+        SpriteY1 < BlueY1 + BlueHeight1 && 
+        BlueY1 < SpriteY1 + SpriteHeight1)  {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+    if(SpriteX1 < BrickX + BrickWidth &&
+        BrickX < SpriteX1 + SpriteWidth1 &&
+        SpriteY1 < BrickY + BrickHeight && 
+        BrickY < SpriteY1 + SpriteHeight1)  {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+    if(SpriteX1 < BrickX1 + BrickWidth1 &&
+        BrickX1 < SpriteX1 + SpriteWidth1 &&
+        SpriteY1 < BrickY1 + BrickHeight1 && 
+        BrickY1 < SpriteY1 + SpriteHeight1)  {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+    if(SpriteX1 < CircleX + CircleWidth &&
+        CircleX < SpriteX1 + SpriteWidth1 &&
+        SpriteY1 < CircleY + CircleHeight && 
+        CircleY < SpriteY1 + SpriteHeight1)  {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+    if(SpriteX1 < RockX + RockWidth &&
+        RockX < SpriteX1 + SpriteWidth1 &&
+        SpriteY1 < RockY + RockHeight && 
+        RockY < SpriteY1 + SpriteHeight1)  {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+    if(SpriteX1 < TreeX + TreeWidth &&
+        TreeX < SpriteX1 + SpriteWidth1 &&
+        SpriteY1 < TreeY + TreeHeight && 
+        TreeY < SpriteY1 + SpriteHeight1)  {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+    if(SpriteX1 < TreeX1 + TreeWidth1 &&
+        TreeX1 < SpriteX1 + SpriteWidth1 &&
+        SpriteY1 < TreeY1 + TreeHeight1 && 
+        TreeY1 < SpriteY1 + SpriteHeight1)  {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+}
+
+function SpriteCollGoal(key) {
+    if(SpriteX < GoalX + GoalWidth &&
+        GoalX < SpriteX + SpriteWidth &&
+        SpriteY < GoalY + GoalHeight && 
+        GoalY < SpriteY + SpriteHeight) {
+            if(key == 28) {
+                SpriteX -= 10;
+                canvas.style.background = "#FFB6C1"; 
+            } else if(key == 29) { 
+                SpriteX += 10;
+            } else if(key == 30) { 
+                SpriteY += 10;
+            } else if (key == 31) {
+                SpriteY -= 10;
+            }
+    }
+}
+
+function GSUCollGoal(key1) {
+    if(SpriteX1 < GoalX + GoalWidth &&
+        GoalX < SpriteX1 + SpriteWidth1 &&
+        SpriteY1 < GoalY + GoalHeight && 
+        GoalY < SpriteY1 + SpriteHeight1) {
+            if (key1 == 33) {
+                SpriteY1 += 10;
+            } else if(key1 == 35) {
+                SpriteY1 -= 10;
+            } else if(key1 == 34) {
+                SpriteX1 -= 10;
+                canvas.style.background = "#ADD8E6"; 
+            } else if(key1 == 32) {
+                SpriteX1 += 10;
+            }
+    }
+}
+
+function whenKeyPressed(key) {
+    switch (key) {
+        case 28:  // Right arrow was pressed
+            eraseSprite();
+            if(SpriteX == 600)
+                SpriteX -= 10;
+            else if(SpriteX != 0)
+                SpriteX += 10;
+            else if(SpriteX == 0)
+                SpriteX += 10;
+            drawSprite();
+            break;
+        case 29:  // Left arrow, ASCII 2
+            eraseSprite();
+            if(SpriteX == 0)
+                SpriteX += 10;
+            else if(SpriteX != 0)
+                SpriteX -= 10;
+            drawSprite();
+            break;
+        case 30:  // Up arrow was pressed
+            eraseSprite();
+            if (SpriteY == 0)
+                SpriteY += 10;
+            else if(SpriteY != 0)
+                SpriteY -= 10;
+            drawSprite();
+            break;
+        case 31:  // Down arrow was pressed
+            eraseSprite();
+            if(SpriteY >= 450)
+                SpriteY -= 10;
+            else if (SpriteY != 0)
+                SpriteY += 10;
+            else if(SpriteY == 0)
+                SpriteY += 10;
+            drawSprite();
+            break;
+    }
+}
+
+function whenLetterPressed(key1){
+    switch(key1){
+        case 32:  // a
+            eraseSprite();
+            if(SpriteX1 == 600)
+                SpriteX1 -= 10;
+            else if(SpriteX1 != 0)
+                SpriteX1 -= 10;
+            else if(SpriteX1 == 0)
+                SpriteX1 += 10;
+            drawSprite();
+            break;
+        case 33:  // w
+            eraseSprite();
+            if (SpriteY1 == 0)
+                SpriteY1 += 10;
+            else if(SpriteY1 != 0)
+                SpriteY1 -= 10;
+            drawSprite();
+            break;
+        case 34:  // d
+            eraseSprite();
+            if (SpriteX1 == 600) 
+                SpriteX1 -= 10;
+            else if(SpriteX1 != 0)
+                SpriteX1 += 10;
+            else if(SpriteX1 == 0)
+                SpriteX1 += 10;
+            drawSprite();
+            break;
+        case 35:  // s
+            eraseSprite();
+            if(SpriteY1 >= 450)
+                SpriteY1 -= 10;
+            else if (SpriteY1 != 0)
+                SpriteY1 += 10;
+            else if(SpriteY1 == 0)
+                SpriteY1 += 10;
+            drawSprite();
+            break;
+    }
+}
+
+///]]>
+</script>
+
+</head>
+<body onload="loadComplete()" bgcolor="#0f0000" text="#ffffff">
+
+<center>
+    <canvas id="theCanvas" tabindex="1" width="640" height="480"></canvas>
+    <h2>Press up/down/right left for Pounce and w/a/s/d for gsuG to move</h2>
+</center>
+
+<script type="application/javascript">
+
+// Set up a function to handle key-presses.
+// This should work across most browsers.
+  document['onkeydown'] = function(event) {
+    event = event || window.event;
+    var key = event.which || event.cursor;
+    // Check for a special key value, and map it to ASCII.
+    switch (key) {
+      case 37:  // Left arrow, ASCII 29
+        key = 29;
+        break;
+      case 38:  // Up arrow, ASCII 30
+        key = 30;
+        break;
+      case 39:  // Right arrow, ASCII 28
+        key = 28;
+        break;
+      case 40:  // Down arrow, ASCII 31
+        key = 31;
+        break;
+    }
+     whenKeyPressed(key);
+     collision(key);
+     SpriteCollWall(key);
+     SpriteCollGoal(key);
+  };
+  document.addEventListener("keydown",function(event){
+  event = event || window.event;
+  var key1= event.which || event.cursor;
+  switch(key1){
+    case 65:  // a
+      key1 = 32;
+      break;
+    case 87:  // w
+      key1 = 33;
+      break;
+    case 68:  // d
+      key1 = 34;
+      break;
+    case 83:  // s
+      key1 = 35;
+      break;
+  }
+  whenLetterPressed(key1);
+  collision1(key1);
+  GSUCollWall(key1);
+  GSUCollGoal(key1);
+});
+</script>
+</body></html>
+
